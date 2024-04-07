@@ -1,19 +1,40 @@
-public class PrimeExample{    
- public static void main(String args[]){    
-  int i,m=0,flag=0;      
-  int n=3;//it is the number to be checked    
-  m=n/2;      
-  if(n==0||n==1){  
-   System.out.println(n+" is not prime number");      
-  }else{  
-   for(i=2;i<=m;i++){      
-    if(n%i==0){      
-     System.out.println(n+" is not prime number");      
-     flag=1;      
-     break;      
-    }      
-   }      
-   if(flag==0)  { System.out.println(n+" is prime number"); }  
-  }//end of else  
-}    
-}   
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the source code from your version control system (e.g., Git)
+                git 'https://github.com/yourusername/your-maven-project.git'
+            }
+        }
+        
+        stage('Build') {
+            steps {
+                // Build the Maven project
+                sh 'mvn clean package'
+            }
+        }
+        
+        stage('Unit Tests') {
+            steps {
+                // Run unit tests
+                sh 'mvn test'
+            }
+        }
+        
+        stage('Integration Tests') {
+            steps {
+                // Run integration tests
+                sh 'mvn integration-test'
+            }
+        }
+        
+        stage('Deploy') {
+            steps {
+                // Deploy the Maven project (e.g., to a repository, server, etc.)
+                sh 'mvn deploy'
+            }
+        }
+    }
+}
